@@ -1,0 +1,59 @@
+{
+  "description": "Make a HTTP GET request to a FlowDirector endpoint.",
+  "links": {
+    "input": [
+      {
+        "name": "In",
+        "type": "message",
+        "mandatory": true
+      }
+    ],
+    "output": [
+      {
+        "name": "Out",
+        "type": "message"
+      }
+    ]
+  },
+  "properties": [
+
+    {
+      "name": "username",
+      "label": "Username",
+      "description": "",
+      "type": "String"
+    },
+
+
+    {
+      "name": "properties",
+      "label": "Properties",
+      "description": "Provide the names of the properties of the message that should be set to a value. Other existing properties will be removed.",
+      "type": "array",
+      "fieldtypes": [
+        "identifier"
+      ],
+      "mandatory": true
+    },
+    {
+      "name": "types",
+      "label": "Types",
+      "description": "Provide the 1corresponding types of the properties. Possible types are 'boolean', 'string', 'integer', 'long', 'double', 'float'",
+      "type": "array",
+      "fieldtypes": [
+        "identifier"
+      ],
+      "mandatory": true
+    },
+    {
+      "name": "values",
+      "label": "Values",
+      "description": "Provide the corresponding values to set. Either enter a static value or use {propertyname} to use a property value of the incoming message. To set the current time in milliseconds, use [time].",
+      "type": "array",
+      "fieldtypes": [
+        "string"
+      ],
+      "mandatory": true
+    }
+  ]
+}
