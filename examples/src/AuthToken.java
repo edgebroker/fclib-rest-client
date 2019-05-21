@@ -1,11 +1,13 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AuthToken {
-
     private String app;
     private String username;
     private String password;
@@ -21,6 +23,7 @@ public class AuthToken {
     }
 
     private String attemptLogin() throws Exception {
+
 
         URL url = new URL("http://localhost:8080/auth/login");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();

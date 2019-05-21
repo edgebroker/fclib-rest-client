@@ -1,0 +1,34 @@
+{
+  "description": "Attempts to retrieve a valid auth token for the provided user credentials.",
+  "refs": {
+    "output": [
+      {
+        "name": "Auth Token",
+        "type": "token"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "app",
+      "label": "App Name",
+      "description": "Provide the App that the user is trying to authenticate with.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "username",
+      "label": "Username",
+      "description": "Provide the Username.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "password",
+      "label": "Password",
+      "description": "Provide the Password.",
+      "type": "string",
+      "mandatory": true
+    }
+  ]
+}
