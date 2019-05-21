@@ -1,5 +1,5 @@
 {
-  "description": "Make a HTTP GET request to a FlowDirector endpoint.",
+  "description": "Make a HTTP POST request",
   "links": {
     "input": [
       {
@@ -27,9 +27,16 @@
     {
       "name": "url",
       "label": "URL",
-      "description": "Provide the URL to send the HTTP GET request.",
+      "description": "Provide the URL to send the HTTP POST request.",
       "type": "string",
       "mandatory": true
+    },
+    {
+      "name": "body",
+      "label": "Request Body",
+      "description": "Provide the request BODY to send. Optionally, leave this field blank to send the incoming Text Message's body.",
+      "type": "json",
+      "mandatory": false
     }
   ]
 }

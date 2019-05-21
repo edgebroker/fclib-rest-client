@@ -4,7 +4,7 @@
     "output": [
       {
         "name": "Auth Token",
-        "type": "token"
+        "type": "authtoken"
       }
     ]
   },
