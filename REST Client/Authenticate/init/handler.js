@@ -1,5 +1,6 @@
 function handler(In) {
 
+    var serverUrl = this.props["server_url"];
     var app = this.props["app"];
     var username = this.props["username"];
     var password = this.props["password"];
@@ -14,7 +15,7 @@ function handler(In) {
     function attemptLogin() {
 
         var URL = Java.type("java.net.URL");
-        var loginUrl = new URL("http://10.0.1.88:8080/auth/login");
+        var loginUrl = new URL(serverUrl + "/auth/login");
 
         var con = loginUrl.openConnection();
         con.setRequestMethod("POST");

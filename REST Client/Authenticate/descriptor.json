@@ -10,6 +10,13 @@
   },
   "properties": [
     {
+      "name": "server_url",
+      "label": "Server URL",
+      "description": "Provide the Server URL to make requests to. For example: http://localhost:8080",
+      "type": "string",
+      "mandatory": true
+    },
+    {
       "name": "app",
       "label": "App Name",
       "description": "Provide the App that the user is trying to authenticate with.",
