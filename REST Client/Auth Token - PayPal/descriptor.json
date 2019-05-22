@@ -1,0 +1,27 @@
+{
+  "description": "Retrieve an auth token for PayPal's REST API.",
+  "refs": {
+    "output": [
+      {
+        "name": "Auth Token",
+        "type": "authtoken"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "clientid",
+      "label": "Client ID",
+      "description": "Provide the Client ID for your PayPal app. View in PayPal's Developer Dashboard.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "secret",
+      "label": "Secret",
+      "description": "Provide the Secret for your PayPal app. View in PayPal's Developer Dashboard.",
+      "type": "string",
+      "mandatory": true
+    }
+  ]
+}

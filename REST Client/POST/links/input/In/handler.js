@@ -1,7 +1,6 @@
 function handler(input) {
 
     var endpoint = this.props["url"];
-
     var bodyProp = this.props["body"];
 
     var body = requestBody();
