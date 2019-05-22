@@ -1,5 +1,5 @@
 {
-  "description": "Attempts to retrieve a valid auth token for the provided user credentials.",
+  "description": "Retrieve an auth token used to make API requests to a Flow Director app.",
   "refs": {
     "output": [
       {

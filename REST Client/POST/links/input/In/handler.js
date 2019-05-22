@@ -26,6 +26,8 @@ function handler(input) {
         con.setRequestProperty("Authorization", "Bearer " + authToken);
     }
 
+    con.setRequestProperty("Content-Type", "application/json");
+
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
 

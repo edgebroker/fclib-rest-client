@@ -1,0 +1,20 @@
+{
+  "description": "Provides a static auth token for HTTP requests.",
+  "refs": {
+    "output": [
+      {
+        "name": "Auth Token",
+        "type": "authtoken"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "token",
+      "label": "Authentication Token",
+      "description": "Copy and paste the provided auth token from a third-party service.",
+      "type": "string",
+      "mandatory": true
+    }
+  ]
+}
