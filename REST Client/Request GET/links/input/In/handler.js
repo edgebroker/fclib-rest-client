@@ -1,5 +1,7 @@
 function handler(message) {
 
+    var self = this;
+
     var endpoint = this.props["url"];
 
     var URL = Java.type("java.net.URL");
@@ -12,6 +14,29 @@ function handler(message) {
     if(getAuthToken) {
         var authToken = getAuthToken();
         con.setRequestProperty("Authorization", "Bearer " + authToken);
+    }
+
+    function basicAuthCredentials() {
+
+        var basicAuthUsername = self.props["basic_auth_username"];
+        var basicAuthPassword = self.props["basic_auth_password"];
+
+        if(!basicAuthUsername) {
+            throw "Missing Basic Auth Username. Either provide one or uncheck 'Use Basic Auth'."
+        }
+        if(!basicAuthPassword) {
+            throw "Missing Basic Auth Password. Either provide one or uncheck 'Use Basic Auth'."
+        }
+
+        var credentials = basicAuthUsername + ":" + basicAuthPassword;
+        var Base64 = Java.type("java.util.Base64");
+
+        return Base64.getEncoder().encodeToString(credentials.getBytes());
+    }
+
+    var useBasicAuth = this.props["use_basic_auth"];
+    if(useBasicAuth) {
+        con.setRequestProperty("Authorization", "Basic " + basicAuthCredentials());
     }
 
     con.setConnectTimeout(5000);
@@ -27,7 +52,6 @@ function handler(message) {
     } else {
         streamReader = new InputStreamReader(con.getInputStream());
     }
-
 
     var BufferedReader = Java.type("java.io.BufferedReader");
     var inReader = new BufferedReader(streamReader);

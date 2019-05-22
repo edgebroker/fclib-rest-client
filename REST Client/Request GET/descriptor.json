@@ -1,0 +1,56 @@
+{
+  "description": "Make a HTTP GET request to a FlowDirector endpoint.",
+  "links": {
+    "input": [
+      {
+        "name": "In",
+        "type": "message",
+        "mandatory": true
+      }
+    ],
+    "output": [
+      {
+        "name": "Out",
+        "type": "message"
+      }
+    ]
+  },
+  "refs": {
+    "input": [
+      {
+        "name": "Auth Token",
+        "type": "authtoken"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "url",
+      "label": "URL",
+      "description": "Provide the URL to send the HTTP GET request.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "use_basic_auth",
+      "label": "Use Basic Auth",
+      "description": "Send the request using the Basic Authorization scheme.",
+      "type": "boolean",
+      "mandatory": false
+    },
+    {
+      "name": "basic_auth_username",
+      "label": "Basic Auth - Username",
+      "description": "Provide the username for Basic Auth. Only required if Basic Auth is checked.",
+      "type": "string",
+      "mandatory": false
+    },
+    {
+      "name": "basic_auth_password",
+      "label": "Basic Auth - Password",
+      "description": "Provide the password for Basic Auth. Only required if Basic Auth is checked.",
+      "type": "string",
+      "mandatory": false
+    }
+  ]
+}

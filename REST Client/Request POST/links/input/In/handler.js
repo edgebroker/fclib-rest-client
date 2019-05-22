@@ -1,5 +1,7 @@
 function handler(input) {
 
+    var self = this;
+
     var endpoint = this.props["url"];
     var bodyProp = this.props["body"];
 
@@ -11,6 +13,24 @@ function handler(input) {
         }  else {
             return input.body();
         }
+    }
+
+
+    function basicAuthCredentials() {
+        var basicAuthUsername = self.props["basic_auth_username"];
+        var basicAuthPassword = self.props["basic_auth_password"];
+
+        if(!basicAuthUsername) {
+            throw "Missing Basic Auth Username. Either provide one or uncheck 'Use Basic Auth'."
+        }
+        if(!basicAuthPassword) {
+            throw "Missing Basic Auth Password. Either provide one or uncheck 'Use Basic Auth'."
+        }
+
+        var credentials = basicAuthUsername + ":" + basicAuthPassword;
+        var Base64 = Java.type("java.util.Base64");
+
+        return Base64.getEncoder().encodeToString(credentials.getBytes());
     }
 
     var URL = Java.type("java.net.URL");
@@ -25,7 +45,15 @@ function handler(input) {
         con.setRequestProperty("Authorization", "Bearer " + authToken);
     }
 
-    con.setRequestProperty("Content-Type", "application/json");
+    var isJsonBody = this.props["send_json"];
+    if(isJsonBody) {
+        con.setRequestProperty("Content-Type", "application/json");
+    }
+
+    var useBasicAuth = this.props["use_basic_auth"];
+    if(useBasicAuth) {
+        con.setRequestProperty("Authorization", "Basic " + basicAuthCredentials());
+    }
 
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
