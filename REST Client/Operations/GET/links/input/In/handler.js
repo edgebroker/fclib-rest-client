@@ -1,75 +1,85 @@
 function handler(message) {
 
-    var self = this;
+    try {
 
-    var endpoint = this.props["url"];
+        var self = this;
 
-    var URL = Java.type("java.net.URL");
-    var getUrl = new URL(endpoint);
+        var endpoint = this.props["url"];
 
-    var con = getUrl.openConnection();
-    con.setRequestMethod("GET");
+        var URL = Java.type("java.net.URL");
+        var getUrl = new URL(endpoint);
 
-    var authenticator = this.getInputReference("Authenticator")();
-    for (var key in authenticator) {
-        var value = authenticator[key];
-        con.setRequestProperty(key, value);
-    }
+        var con = getUrl.openConnection();
+        con.setRequestMethod("GET");
 
-    var headerKeys = this.props["header_keys"];
-    var headerValues = this.props["header_values"];
-    var numHeaderKeys = headerKeys && headerKeys.length || 0;
-    var hasCustomHeaders = numHeaderKeys > 0;
-    if(hasCustomHeaders) {
-        headerKeys.forEach(function(key, index) {
-            var value = headerValues[index];
-            if(value === undefined) {
-                throw "Missing header value for key '" + key + "'."
-            }
+        var authenticator = this.getInputReference("Authenticator")();
+        for (var key in authenticator) {
+            var value = authenticator[key];
             con.setRequestProperty(key, value);
-        });
-    }
+        }
 
-    con.setConnectTimeout(5000);
-    con.setReadTimeout(5000);
+        var headerKeys = this.props["header_keys"];
+        var headerValues = this.props["header_values"];
+        var numHeaderKeys = headerKeys && headerKeys.length || 0;
+        var hasCustomHeaders = numHeaderKeys > 0;
+        if(hasCustomHeaders) {
+            headerKeys.forEach(function(key, index) {
+                var value = headerValues[index];
+                if(value === undefined) {
+                    throw "Missing header value for key '" + key + "'."
+                }
+                con.setRequestProperty(key, value);
+            });
+        }
 
-    var status = con.getResponseCode();
+        con.setConnectTimeout(5000);
+        con.setReadTimeout(5000);
 
-    var InputStreamReader = Java.type("java.io.InputStreamReader");
-    var streamReader;
+        var status = con.getResponseCode();
 
-    if (status > 299) {
-        streamReader = new InputStreamReader(con.getErrorStream());
-    } else {
-        streamReader = new InputStreamReader(con.getInputStream());
-    }
+        var InputStreamReader = Java.type("java.io.InputStreamReader");
+        var streamReader;
 
-    var BufferedReader = Java.type("java.io.BufferedReader");
-    var inReader = new BufferedReader(streamReader);
-    var inputLine;
-    var StringBuffer = Java.type("java.lang.StringBuffer");
-    var content = new StringBuffer();
-    while ((inputLine = inReader.readLine()) != null) {
-        content.append(inputLine);
-    }
-    inReader.close();
-    con.disconnect();
+        if (status > 299) {
+            streamReader = new InputStreamReader(con.getErrorStream());
+        } else {
+            streamReader = new InputStreamReader(con.getInputStream());
+        }
 
-    var response = content.toString();
+        var BufferedReader = Java.type("java.io.BufferedReader");
+        var inReader = new BufferedReader(streamReader);
+        var inputLine;
+        var StringBuffer = Java.type("java.lang.StringBuffer");
+        var content = new StringBuffer();
+        while ((inputLine = inReader.readLine()) != null) {
+            content.append(inputLine);
+        }
+        inReader.close();
+        con.disconnect();
 
-    if (status > 299) {
-        stream.log().error(response);
-        throw "HTTP GET request to '" + endpoint + "' error.";
-    } else {
-        stream.log().info(response);
+        var response = content.toString();
 
         var textMessage = stream.create()
                                 .message()
                                 .textMessage();
-
         textMessage.body(response);
 
-        this.executeOutputLink("Out", textMessage)
-    }
+        if (status > 299) {
+            stream.log().error(response);
+            stream.log().error("HTTP GET request to '" + endpoint + "' error.")
+            this.executeOutputLink("Error", textMessage)
+        } else {
+            stream.log().info(response);
+            this.executeOutputLink("Success", textMessage)
+        }
 
+    } catch (err) {
+        var textMessage = stream.create()
+                                .message()
+                                .textMessage();
+        stream.log().error(err);
+        textMessage.body(err);
+        this.executeOutputLink("Error", textMessage);
+        return;
+    }
 }

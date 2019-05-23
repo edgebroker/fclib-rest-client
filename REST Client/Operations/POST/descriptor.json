@@ -10,7 +10,11 @@
     ],
     "output": [
       {
-        "name": "Out",
+        "name": "Success",
+        "type": "message"
+      },
+      {
+        "name": "Error",
         "type": "message"
       }
     ]
