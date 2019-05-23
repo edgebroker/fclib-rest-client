@@ -16,7 +16,6 @@ function handler(input) {
     }
 
 
-
     var URL = Java.type("java.net.URL");
     var getUrl = new URL(endpoint);
 
@@ -32,6 +31,20 @@ function handler(input) {
     var getBasicAuthValue = this.getInputReference("Basic Auth");
     if(getBasicAuthValue) {
         con.setRequestProperty("Authorization", "Basic " + getBasicAuthValue());
+    }
+
+    var headerKeys = this.props["header_keys"];
+    var headerValues = this.props["header_values"];
+    var numHeaderKeys = headerKeys && headerKeys.length || 0;
+    var hasCustomHeaders = numHeaderKeys > 0;
+    if(hasCustomHeaders) {
+        headerKeys.forEach(function(key, index) {
+            var value = headerValues[index];
+            if(value === undefined) {
+                throw "Missing header value for key '" + key + "'."
+            }
+            con.setRequestProperty(key, value);
+        });
     }
 
     var isJsonBody = this.props["send_json"];

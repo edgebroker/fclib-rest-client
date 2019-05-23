@@ -34,6 +34,26 @@
       "description": "Provide the URL to send the HTTP GET request.",
       "type": "string",
       "mandatory": true
+    },
+    {
+      "name": "header_keys",
+      "label": "Header Keys",
+      "type": "array",
+      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order.",
+      "fieldtypes": [
+        "string"
+      ],
+      "mandatory": false
+    },
+    {
+      "name": "header_values",
+      "label": "Header Values",
+      "type": "array",
+      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order.",
+      "fieldtypes": [
+        "string"
+      ],
+      "mandatory": false
     }
   ]
 }
