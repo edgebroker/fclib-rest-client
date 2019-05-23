@@ -1,5 +1,7 @@
 function handler() {
 
+    var timeoutSeconds = this.props["request_timeout"];
+
     this.setOutputReference("Authenticator", execRef);
 
     function execRef() {
@@ -34,8 +36,8 @@ function handler() {
 
         con.setRequestProperty("Authorization", "Basic " + encodedCredentials());
 
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
+        con.setConnectTimeout(timeoutSeconds * 1000 / 2);
+        con.setReadTimeout(timeoutSeconds * 1000 / 2);
 
         con.setDoOutput(true);
 

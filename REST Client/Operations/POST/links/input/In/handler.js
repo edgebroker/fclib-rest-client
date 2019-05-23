@@ -6,6 +6,7 @@ function handler(input) {
 
         var endpoint = this.props["url"];
         var bodyProp = this.props["body"] || "";
+        var timeoutSeconds = this.props["request_timeout"];
 
         function requestBody() {
             var content = bodyProp
@@ -51,8 +52,8 @@ function handler(input) {
             con.setRequestProperty("Content-Type", "application/json");
         }
 
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
+        con.setConnectTimeout(timeoutSeconds * 1000 / 2);
+        con.setReadTimeout(timeoutSeconds * 1000 / 2);
 
         con.setDoOutput(true);
 

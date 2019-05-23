@@ -4,6 +4,7 @@ function handler() {
     var app = this.props["app"];
     var username = this.props["username"];
     var password = this.props["password"];
+    var timeoutSeconds = this.props["request_timeout"];
 
     this.setOutputReference("Authenticator", execRef);
     var self = this;
@@ -22,8 +23,11 @@ function handler() {
         var con = loginUrl.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
+
+
+        con.setConnectTimeout(timeoutSeconds * 1000 / 2);
+        con.setReadTimeout(timeoutSeconds * 1000 / 2);
+
         con.setDoOutput(true);
 
         jsonInputString = "{\"app\":\"" + app + "\", \"username\": \"" + username + "\", \"password\": \"" + password + "\"}";

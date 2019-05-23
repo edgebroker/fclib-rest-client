@@ -1,5 +1,5 @@
 {
-  "description": "Provides a static auth token for HTTP requests.",
+  "description": "Provide a Bearer auth token for HTTP requests.",
   "refs": {
     "output": [
       {

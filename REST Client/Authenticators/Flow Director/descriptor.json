@@ -17,6 +17,14 @@
       "mandatory": true
     },
     {
+      "name": "request_timeout",
+      "label": "Request Timeout in Seconds",
+      "description": "How long to wait for request completion.",
+      "type": "integer",
+      "default": 10,
+      "mandatory": true
+    },
+    {
       "name": "app",
       "label": "App Name",
       "description": "Provide the App that the user is trying to authenticate with.",

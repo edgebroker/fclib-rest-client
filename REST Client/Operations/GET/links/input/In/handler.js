@@ -5,6 +5,7 @@ function handler(message) {
         var self = this;
 
         var endpoint = this.props["url"];
+        var timeoutSeconds = this.props["request_timeout"];
 
         var URL = Java.type("java.net.URL");
         var getUrl = new URL(endpoint);
@@ -32,8 +33,8 @@ function handler(message) {
             });
         }
 
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
+        con.setConnectTimeout(timeoutSeconds * 1000 / 2);
+        con.setReadTimeout(timeoutSeconds * 1000 / 2);
 
         var status = con.getResponseCode();
 

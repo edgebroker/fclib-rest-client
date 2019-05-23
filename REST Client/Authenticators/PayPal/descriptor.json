@@ -10,6 +10,14 @@
   },
   "properties": [
     {
+      "name": "request_timeout",
+      "label": "Request Timeout in Seconds",
+      "description": "How long to wait for request completion.",
+      "type": "integer",
+      "default": 10,
+      "mandatory": true
+    },
+    {
       "name": "clientid",
       "label": "Client ID",
       "description": "Provide the Client ID for your PayPal app. View in PayPal's Developer Dashboard.",
