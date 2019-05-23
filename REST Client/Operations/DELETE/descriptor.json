@@ -1,5 +1,5 @@
 {
-  "description": "Make a HTTP GET request.",
+  "description": "Make a HTTP DELETE request.",
   "links": {
     "input": [
       {
@@ -32,7 +32,7 @@
     {
       "name": "url",
       "label": "URL",
-      "description": "Provide the URL to send the HTTP GET request.",
+      "description": "Provide the URL to send the HTTP DELETE request.",
       "type": "string",
       "mandatory": true
     },

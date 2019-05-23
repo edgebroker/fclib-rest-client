@@ -1,5 +1,5 @@
 {
-  "description": "Make a HTTP GET request.",
+  "description": "Make a HTTP PUT request.",
   "links": {
     "input": [
       {
@@ -32,7 +32,7 @@
     {
       "name": "url",
       "label": "URL",
-      "description": "Provide the URL to send the HTTP GET request.",
+      "description": "Provide the URL to send the HTTP PUT request.",
       "type": "string",
       "mandatory": true
     },
@@ -62,6 +62,20 @@
       "fieldtypes": [
         "string"
       ],
+      "mandatory": false
+    },
+    {
+      "name": "send_json",
+      "label": "Send JSON",
+      "description": "Set 'application/json' as the Content-Type header.",
+      "type": "boolean",
+      "mandatory": false
+    },
+    {
+      "name": "body",
+      "label": "Request Body",
+      "description": "Provide the request body to send. You may include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
+      "type": "json",
       "mandatory": false
     }
   ]
