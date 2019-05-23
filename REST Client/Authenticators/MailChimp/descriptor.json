@@ -1,0 +1,20 @@
+{
+  "description": "Authorize requests using HTTP Basic Authentication.",
+  "refs": {
+    "output": [
+      {
+        "name": "Basic Auth",
+        "type": "basicauth"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "api_key",
+      "label": "API Key",
+      "description": "Provide the MailChimp Account's API Key.",
+      "type": "string",
+      "mandatory": true
+    }
+  ]
+}

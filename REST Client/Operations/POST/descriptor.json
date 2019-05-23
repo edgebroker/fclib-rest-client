@@ -20,6 +20,10 @@
       {
         "name": "Auth Token",
         "type": "authtoken"
+      },
+      {
+        "name": "Basic Auth",
+        "type": "basicauth"
       }
     ]
   },
@@ -30,27 +34,6 @@
       "description": "Provide the URL to send the HTTP POST request.",
       "type": "string",
       "mandatory": true
-    },
-    {
-      "name": "use_basic_auth",
-      "label": "Use Basic Auth",
-      "description": "Send the request using the Basic Authorization scheme.",
-      "type": "boolean",
-      "mandatory": false
-    },
-    {
-      "name": "basic_auth_username",
-      "label": "Basic Auth - Username",
-      "description": "Provide the username for Basic Auth. Only required if Basic Auth is checked.",
-      "type": "string",
-      "mandatory": false
-    },
-    {
-      "name": "basic_auth_password",
-      "label": "Basic Auth - Password",
-      "description": "Provide the password for Basic Auth. Only required if Basic Auth is checked.",
-      "type": "string",
-      "mandatory": false
     },
     {
       "name": "send_json",

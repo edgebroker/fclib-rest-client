@@ -1,0 +1,27 @@
+{
+  "description": "Authorize requests using HTTP Basic Authentication.",
+  "refs": {
+    "output": [
+      {
+        "name": "Basic Auth",
+        "type": "basicauth"
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "username",
+      "label": "Username",
+      "description": "Provide the username for HTTP Basic Auth.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "password",
+      "label": "Password",
+      "description": "Provide the password for HTTP Basic Auth.",
+      "type": "string",
+      "mandatory": true
+    }
+  ]
+}

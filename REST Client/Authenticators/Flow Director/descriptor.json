@@ -1,5 +1,5 @@
 {
-  "description": "Retrieve an auth token used to make API requests to a Flow Director app.",
+  "description": "Retrieve an auth token used to make API requests to a Flow Director App.",
   "refs": {
     "output": [
       {
