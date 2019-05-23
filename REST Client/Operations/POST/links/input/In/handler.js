@@ -3,18 +3,20 @@ function handler(input) {
     var self = this;
 
     var endpoint = this.props["url"];
-    var bodyProp = this.props["body"];
+    var bodyProp = this.props["body"] || "";
 
     var body = requestBody();
 
     function requestBody() {
-        if(bodyProp !== null && bodyProp !== undefined && bodyProp !== "") {
-           return bodyProp;
-        }  else {
-            return input.body();
-        }
+        var content = bodyProp
+        // Substitute Message Properties
+        input.properties().forEach(function(prop){
+            content = replaceAll(content, "\\{"+prop.name()+"\\}", prop.value().toString());
+        });
+        // Substitute flow params
+        content = self.flowcontext.substitute(content);
+        return content;
     }
-
 
     var URL = Java.type("java.net.URL");
     var getUrl = new URL(endpoint);
@@ -98,6 +100,10 @@ function handler(input) {
         textMessage.body(response);
 
         this.executeOutputLink("Out", textMessage)
+    }
+
+    function replaceAll(str, find, replace) {
+        return str.replace(new RegExp(find, 'g'), replace);
     }
 
 }

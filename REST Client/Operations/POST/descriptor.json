@@ -65,7 +65,7 @@
     {
       "name": "body",
       "label": "Request Body",
-      "description": "Provide the request BODY to send. Optionally, leave this field blank to send the incoming Text Message's body.",
+      "description": "Provide the request body to send. You may include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
       "type": "json",
       "mandatory": false
     }
