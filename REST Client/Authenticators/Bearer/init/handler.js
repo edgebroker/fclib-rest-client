@@ -6,4 +6,4 @@ function handler() {
             "Authorization": "Bearer " + token
         };
     }
-}
+}   

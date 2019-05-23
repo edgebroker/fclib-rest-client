@@ -10,15 +10,10 @@ function handler(message) {
     var con = getUrl.openConnection();
     con.setRequestMethod("GET");
 
-    var getAuthToken = this.getInputReference("Auth Token");
-    if(getAuthToken) {
-        var authToken = getAuthToken();
-        con.setRequestProperty("Authorization", "Bearer " + authToken);
-    }
-
-    var getBasicAuthValue = this.getInputReference("Basic Auth");
-    if(getBasicAuthValue) {
-        con.setRequestProperty("Authorization", "Basic " + getBasicAuthValue());
+    var authenticator = this.getInputReference("Authenticator")();
+    for (var key in authenticator) {
+        var value = authenticator[key];
+        con.setRequestProperty(key, value);
     }
 
     var headerKeys = this.props["header_keys"];

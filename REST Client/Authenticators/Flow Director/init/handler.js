@@ -5,11 +5,13 @@ function handler() {
     var username = this.props["username"];
     var password = this.props["password"];
 
-    this.setOutputReference("Auth Token", execRef);
+    this.setOutputReference("Authenticator", execRef);
     var self = this;
     function execRef() {
-        var response = attemptLogin();
-        return tokenFromResponse(response);
+        var token = tokenFromResponse(attemptLogin());
+        return {
+            "Authorization": "Bearer " + token
+        };
     }
 
     function attemptLogin() {

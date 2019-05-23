@@ -3,7 +3,7 @@ function() {
         var username = this.props["username"];
         var password = this.props["password"];
 
-        this.setOutputReference("Basic Auth", execRef);
+        this.setOutputReference("Authenticator", execRef);
 
         function basicAuthHeaderValue() {
             var credentials = username + ":" + password;
@@ -13,6 +13,8 @@ function() {
         }
 
         function execRef() {
-               return basicAuthHeaderValue();
+               return {
+                    "Authorization": "Basic " + basicAuthHeaderValue()
+               };
         }
 }

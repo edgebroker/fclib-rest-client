@@ -3,8 +3,8 @@
   "refs": {
     "output": [
       {
-        "name": "Auth Token",
-        "type": "authtoken"
+        "name": "Authenticator",
+        "type": "authenticator"
       }
     ]
   },

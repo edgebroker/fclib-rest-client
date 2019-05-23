@@ -18,14 +18,11 @@
   "refs": {
     "input": [
       {
-        "name": "Auth Token",
-        "type": "authtoken"
-      },
-      {
-        "name": "Basic Auth",
-        "type": "basicauth"
+        "name": "Authenticator",
+        "type": "authenticator",
+        "mandatory": true
       }
-    ] 
+    ]
   },
   "properties": [
     {

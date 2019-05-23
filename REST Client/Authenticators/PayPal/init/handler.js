@@ -1,9 +1,12 @@
 function handler() {
 
-    this.setOutputReference("Auth Token", execRef);
+    this.setOutputReference("Authenticator", execRef);
 
     function execRef() {
-        return tokenFromResponse(requestAuthToken());
+        var token = tokenFromResponse(requestAuthToken());
+        return {
+            "Authorization": "Bearer " + token
+        };
     }
 
     var self = this;

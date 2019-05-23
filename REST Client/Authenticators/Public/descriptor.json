@@ -1,0 +1,12 @@
+{
+  "description": "Used this for Public APIs that don't require authentication.",
+  "refs": {
+    "output": [
+      {
+        "name": "Authenticator",
+        "type": "authenticator"
+      }
+    ]
+  },
+  "properties": []
+}
