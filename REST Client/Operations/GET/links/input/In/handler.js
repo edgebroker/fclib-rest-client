@@ -16,11 +16,6 @@ function handler(message) {
         con.setRequestProperty("Authorization", "Bearer " + authToken);
     }
 
-    var useBasicAuth = this.props["use_basic_auth"];
-    if(useBasicAuth) {
-        con.setRequestProperty("Authorization", "Basic " + basicAuthCredentials());
-    }
-
     var getBasicAuthValue = this.getInputReference("Basic Auth");
     if(getBasicAuthValue) {
         con.setRequestProperty("Authorization", "Basic " + getBasicAuthValue());
