@@ -1,4 +1,4 @@
-function handler(In) {
+function handler() {
 
     var serverUrl = this.props["server_url"];
     var app = this.props["app"];

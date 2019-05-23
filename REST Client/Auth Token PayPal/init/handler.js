@@ -1,4 +1,4 @@
-function handler(In) {
+function handler() {
 
     this.setOutputReference("Auth Token", execRef);
 
