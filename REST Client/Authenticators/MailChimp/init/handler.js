@@ -1,4 +1,4 @@
-function() {
+function handler() {
 
         var username = "anystring";
         var password = this.props["api_key"];

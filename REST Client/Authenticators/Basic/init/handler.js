@@ -1,4 +1,4 @@
-function() {
+function handler() {
 
         var username = this.props["username"];
         var password = this.props["password"];
