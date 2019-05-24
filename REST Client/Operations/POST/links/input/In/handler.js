@@ -88,7 +88,7 @@ function handler(input) {
         if (status > 299) {
             throw response;
         } else {
-            stream.log().info(response);
+            sendResponseToLog(response);
             this.executeOutputLink("Success", textMessage)
         }
 
@@ -100,6 +100,10 @@ function handler(input) {
         textMessage.body(err);
         this.executeOutputLink("Error", textMessage);
         throw err;
+    }
+
+    function sendResponseToLog(response) {
+        self.flowcontext.sendState("GREEN", response);
     }
 
     function withDynamicVariablesIn(string){
