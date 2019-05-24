@@ -92,9 +92,7 @@ function handler(input) {
         textMessage.body(response);
 
         if (status > 299) {
-            stream.log().error(response);
-            stream.log().error("HTTP PUT request to '" + endpoint + "' error.")
-            this.executeOutputLink("Error", textMessage)
+            throw response;
         } else {
             stream.log().info(response);
             this.executeOutputLink("Success", textMessage)
@@ -107,7 +105,7 @@ function handler(input) {
         stream.log().error(err);
         textMessage.body(err);
         this.executeOutputLink("Error", textMessage);
-        return;
+        throw err;
     }
 
     function replaceAll(str, find, replace) {

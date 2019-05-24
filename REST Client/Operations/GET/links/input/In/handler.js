@@ -66,9 +66,7 @@ function handler(message) {
         textMessage.body(response);
 
         if (status > 299) {
-            stream.log().error(response);
-            stream.log().error("HTTP GET request to '" + endpoint + "' error.")
-            this.executeOutputLink("Error", textMessage)
+            throw response;
         } else {
             stream.log().info(response);
             this.executeOutputLink("Success", textMessage)
@@ -81,6 +79,6 @@ function handler(message) {
         stream.log().error(err);
         textMessage.body(err);
         this.executeOutputLink("Error", textMessage);
-        return;
+        throw err;
     }
 }
