@@ -32,7 +32,7 @@
     {
       "name": "url",
       "label": "URL",
-      "description": "Provide the URL to send the HTTP PATCH request.",
+      "description": "Provide the URL to send the HTTP PATCH request. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "type": "string",
       "mandatory": true
     },
@@ -48,7 +48,7 @@
       "name": "header_keys",
       "label": "Header Keys",
       "type": "array",
-      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order.",
+      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "fieldtypes": [
         "string"
       ],
@@ -58,7 +58,7 @@
       "name": "header_values",
       "label": "Header Values",
       "type": "array",
-      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order.",
+      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "fieldtypes": [
         "string"
       ],
@@ -74,7 +74,7 @@
     {
       "name": "body",
       "label": "Request Body",
-      "description": "Provide the request body to send. You may include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
+      "description": "Provide the request body to send. Include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
       "type": "json",
       "mandatory": false
     }

@@ -32,7 +32,7 @@
     {
       "name": "url",
       "label": "URL",
-      "description": "Provide the URL to send the HTTP DELETE request.",
+      "description": "Provide the URL to send the HTTP DELETE request. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "type": "string",
       "mandatory": true
     },
@@ -48,7 +48,7 @@
       "name": "header_keys",
       "label": "Header Keys",
       "type": "array",
-      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order.",
+      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "fieldtypes": [
         "string"
       ],
@@ -58,7 +58,7 @@
       "name": "header_values",
       "label": "Header Values",
       "type": "array",
-      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order.",
+      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
       "fieldtypes": [
         "string"
       ],

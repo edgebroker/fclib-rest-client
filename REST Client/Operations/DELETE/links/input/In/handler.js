@@ -1,11 +1,13 @@
-function handler(message) {
+function handler(input) {
 
     try {
 
         var self = this;
 
-        var endpoint = this.props["url"];
+        var urlProp = this.props["url"];
         var timeoutSeconds = this.props["request_timeout"];
+
+        var endpoint = withDynamicVariablesIn(urlProp);
 
         var URL = Java.type("java.net.URL");
         var getUrl = new URL(endpoint);
@@ -25,11 +27,14 @@ function handler(message) {
         var hasCustomHeaders = numHeaderKeys > 0;
         if(hasCustomHeaders) {
             headerKeys.forEach(function(key, index) {
-                var value = headerValues[index];
-                if(value === undefined) {
+                var dynamicKey = withDynamicVariablesIn(key);
+                var dynamicValue = withDynamicVariablesIn(headerValues[index]);
+
+                if(dynamicValue === undefined) {
                     throw "Missing header value for key '" + key + "'."
                 }
-                con.setRequestProperty(key, value);
+
+                con.setRequestProperty(dynamicKey, dynamicValue);
             });
         }
 
@@ -80,5 +85,24 @@ function handler(message) {
         textMessage.body(err);
         this.executeOutputLink("Error", textMessage);
         throw err;
+    }
+
+    function withDynamicVariablesIn(string){
+        return replaceFlowParams(replaceMessageProperties(string));
+    }
+
+    function replaceFlowParams(value) {
+        return self.flowcontext.substitute(value);
+    }
+
+    function replaceMessageProperties(value) {
+        input.properties().forEach(function(prop){
+            value = replaceAll(value, "\\{"+prop.name()+"\\}", prop.value().toString());
+        });
+        return value;
+    }
+
+    function replaceAll(str, find, replace) {
+        return str.replace(new RegExp(find, 'g'), replace);
     }
 }

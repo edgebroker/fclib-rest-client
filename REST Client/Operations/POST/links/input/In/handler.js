@@ -4,22 +4,12 @@ function handler(input) {
 
         var self = this;
 
-        var endpoint = this.props["url"];
+        var urlProp = this.props["url"];
         var bodyProp = this.props["body"] || "";
         var timeoutSeconds = this.props["request_timeout"];
 
-        function requestBody() {
-            var content = bodyProp
-            // Substitute Message Properties
-            input.properties().forEach(function(prop){
-                content = replaceAll(content, "\\{"+prop.name()+"\\}", prop.value().toString());
-            });
-            // Substitute flow params
-            content = self.flowcontext.substitute(content);
-            return content;
-        }
-
-        var body = requestBody();
+        var body = withDynamicVariablesIn(bodyProp);
+        var endpoint = withDynamicVariablesIn(urlProp);
 
         var URL = Java.type("java.net.URL");
         var getUrl = new URL(endpoint);
@@ -39,11 +29,15 @@ function handler(input) {
         var hasCustomHeaders = numHeaderKeys > 0;
         if(hasCustomHeaders) {
             headerKeys.forEach(function(key, index) {
-                var value = headerValues[index];
-                if(value === undefined) {
+
+                var dynamicKey = withDynamicVariablesIn(key);
+                var dynamicValue = withDynamicVariablesIn(headerValues[index]);
+
+                if(dynamicValue === undefined) {
                     throw "Missing header value for key '" + key + "'."
                 }
-                con.setRequestProperty(key, value);
+
+                con.setRequestProperty(dynamicKey, dynamicValue);
             });
         }
 
@@ -106,6 +100,21 @@ function handler(input) {
         textMessage.body(err);
         this.executeOutputLink("Error", textMessage);
         throw err;
+    }
+
+    function withDynamicVariablesIn(string){
+        return replaceFlowParams(replaceMessageProperties(string));
+    }
+
+    function replaceFlowParams(value) {
+        return self.flowcontext.substitute(value);
+    }
+
+    function replaceMessageProperties(value) {
+        input.properties().forEach(function(prop){
+            value = replaceAll(value, "\\{"+prop.name()+"\\}", prop.value().toString());
+        });
+        return value;
     }
 
     function replaceAll(str, find, replace) {
