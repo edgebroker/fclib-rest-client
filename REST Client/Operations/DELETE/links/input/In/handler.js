@@ -88,7 +88,8 @@ function handler(input) {
     }
 
     function sendResponseToLog(response) {
-        self.flowcontext.sendState("GREEN", response);
+        var message = "HTTP Request:" + "\n" + endpoint + "\n\n" + response;
+        self.flowcontext.sendState("GREEN", message);
     }
 
     function withDynamicVariablesIn(string){
