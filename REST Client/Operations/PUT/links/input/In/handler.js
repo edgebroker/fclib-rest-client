@@ -49,6 +49,7 @@ function handler(input) {
 
         var isJsonBody = this.props["send_json"];
         if(isJsonBody) {
+            JSON.parse(body);
             con.setRequestProperty("Content-Type", "application/json");
         }
 
