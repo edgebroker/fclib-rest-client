@@ -1,0 +1,82 @@
+{
+  "description": "Make a HTTP PATCH request.",
+  "links": {
+    "input": [
+      {
+        "name": "In",
+        "type": "message",
+        "mandatory": true
+      }
+    ],
+    "output": [
+      {
+        "name": "Success",
+        "type": "message"
+      },
+      {
+        "name": "Error",
+        "type": "message"
+      }
+    ]
+  },
+  "refs": {
+    "input": [
+      {
+        "name": "Authenticator",
+        "type": "authenticator",
+        "mandatory": true
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "url",
+      "label": "URL",
+      "description": "Provide the URL to send the HTTP PATCH request.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "request_timeout",
+      "label": "Request Timeout in Seconds",
+      "description": "How long to wait for request completion.",
+      "type": "integer",
+      "default": 10,
+      "mandatory": true
+    },
+    {
+      "name": "header_keys",
+      "label": "Header Keys",
+      "type": "array",
+      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order.",
+      "fieldtypes": [
+        "string"
+      ],
+      "mandatory": false
+    },
+    {
+      "name": "header_values",
+      "label": "Header Values",
+      "type": "array",
+      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order.",
+      "fieldtypes": [
+        "string"
+      ],
+      "mandatory": false
+    },
+    {
+      "name": "send_json",
+      "label": "Send JSON",
+      "description": "Set 'application/json' as the Content-Type header.",
+      "type": "boolean",
+      "mandatory": false
+    },
+    {
+      "name": "body",
+      "label": "Request Body",
+      "description": "Provide the request body to send. You may include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
+      "type": "json",
+      "mandatory": false
+    }
+  ]
+}
