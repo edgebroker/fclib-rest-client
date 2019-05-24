@@ -12,8 +12,9 @@
     {
       "name": "server_url",
       "label": "Server URL",
-      "description": "Provide the Server URL to make requests to. For example: http://localhost:8080",
+      "description": "Provide the Server URL to make requests to.",
       "type": "string",
+      "default": "http://localhost:8080",
       "mandatory": true
     },
     {
