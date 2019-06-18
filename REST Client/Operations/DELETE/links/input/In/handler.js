@@ -21,19 +21,15 @@ function handler(input) {
             con.setRequestProperty(key, value);
         }
 
-        var headerKeys = this.props["header_keys"];
-        var headerValues = this.props["header_values"];
-        var numHeaderKeys = headerKeys && headerKeys.length || 0;
-        var hasCustomHeaders = numHeaderKeys > 0;
+        var headers = this.props["headers"]
+        var numHeaders = headers && headers.length || 0;
+        var hasCustomHeaders = numHeaders > 0;
         if(hasCustomHeaders) {
-            headerKeys.forEach(function(key, index) {
+            headers.forEach(function(header) {
+                var key = header["key"];
+                var value = header["value"];
                 var dynamicKey = withDynamicVariablesIn(key);
-                var dynamicValue = withDynamicVariablesIn(headerValues[index]);
-
-                if(dynamicValue === undefined) {
-                    throw "Missing header value for key '" + key + "'."
-                }
-
+                var dynamicValue = withDynamicVariablesIn(value);
                 con.setRequestProperty(dynamicKey, dynamicValue);
             });
         }
