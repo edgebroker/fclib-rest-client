@@ -107,7 +107,7 @@ function handler(input) {
     }
 
     function replaceFlowParams(value) {
-        return self.flowcontext.substitute(value);
+        return self.substitute(value);
     }
 
     function replaceMessageProperties(value) {
