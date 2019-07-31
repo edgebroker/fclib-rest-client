@@ -2,6 +2,7 @@ function handler(input) {
 
     try {
 
+        var outMsg = stream.create().message().copyMessage(input);
         var self = this;
 
         var urlProp = this.props["url"];
@@ -61,26 +62,21 @@ function handler(input) {
 
         var response = content.toString();
 
-        var textMessage = stream.create()
-                                .message()
-                                .textMessage();
-        textMessage.body(response);
 
         if (status > 299) {
             throw response;
         } else {
+            outMsg.property("http_status").set(status);
+            outMsg.property("http_message").set(response);
             sendResponseToLog(response);
-            this.executeOutputLink("Success", textMessage)
+            this.executeOutputLink("Success", outMsg);
         }
 
     } catch (err) {
-        var textMessage = stream.create()
-                                .message()
-                                .textMessage();
+        outMsg.property("http_status").set(status);
+        outMsg.property("http_message").set(err);
         stream.log().error(err);
-        textMessage.body(err);
-        this.executeOutputLink("Error", textMessage);
-        throw err;
+        this.executeOutputLink("Error", outMsg);
     }
 
     function sendResponseToLog(response) {
