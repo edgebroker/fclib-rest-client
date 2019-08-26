@@ -2,9 +2,15 @@ function handler(input) {
 
     try {
 
-        var outMsg = stream.create().message().copyMessage(input);
-        var self = this;
+        var LINK = {
+            SUCCESS: "Success",
+            ERROR: "Error"
+        };
 
+        var outMsg = stream.create().message().textMessage();
+        outMsg.copyProperties(input);
+
+        var self = this;
         var urlProp = this.props["url"];
         var timeoutSeconds = this.props["request_timeout"];
 
@@ -25,8 +31,8 @@ function handler(input) {
         var headers = this.props["headers"]
         var numHeaders = headers && headers.length || 0;
         var hasCustomHeaders = numHeaders > 0;
-        if(hasCustomHeaders) {
-            headers.forEach(function(header) {
+        if (hasCustomHeaders) {
+            headers.forEach(function (header) {
                 var key = header["key"];
                 var value = header["value"];
                 var dynamicKey = withDynamicVariablesIn(key);
@@ -62,29 +68,23 @@ function handler(input) {
 
         var response = content.toString();
 
-
         if (status > 299) {
             throw response;
         } else {
-            outMsg.property("http_status").set(status);
-            outMsg.property("http_message").set(response);
-            sendResponseToLog(response);
-            this.executeOutputLink("Success", outMsg);
+            handleResponse(LINK.SUCCESS, status, response, outMsg);
         }
 
     } catch (err) {
-        outMsg.property("http_status").set(status);
-        outMsg.property("http_message").set(err);
-        stream.log().error(err);
-        this.executeOutputLink("Error", outMsg);
+        handleResponse(LINK.ERROR, status, err, outMsg);
     }
 
-    function sendResponseToLog(response) {
-        var message = "HTTP Request:" + "\n" + endpoint + "\n\n" + response;
-        self.flowcontext.sendState("GREEN", message);
+    function handleResponse(link, status, response, message) {
+        message.property("http_status").set(status);
+        message.body(response);
+        self.executeOutputLink(link, outMsg);
     }
 
-    function withDynamicVariablesIn(string){
+    function withDynamicVariablesIn(string) {
         return replaceFlowParams(replaceMessageProperties(string));
     }
 
@@ -93,8 +93,8 @@ function handler(input) {
     }
 
     function replaceMessageProperties(value) {
-        input.properties().forEach(function(prop){
-            value = replaceAll(value, "\\{"+prop.name()+"\\}", prop.value().toString());
+        input.properties().forEach(function (prop) {
+            value = replaceAll(value, "\\{" + prop.name() + "\\}", prop.value().toString());
         });
         return value;
     }
