@@ -2,8 +2,15 @@ function handler(input) {
 
     try {
 
+        var LINK = {
+            SUCCESS: "Success",
+            ERROR: "Error"
+        };
+
+        var outMsg = stream.create().message().textMessage();
+        outMsg.copyProperties(input);
+
         var self = this;
-        var outMsg = stream.create().message().copyMessage(input);
 
         var urlProp = this.props["url"];
         var bodyProp = this.props["body"] || "";
@@ -79,22 +86,17 @@ function handler(input) {
         if (status > 299) {
             throw response;
         } else {
-            outMsg.property("http_status").set(status);
-            outMsg.property("http_message").set(response);
-            sendResponseToLog(response);
-            this.executeOutputLink("Success", outMsg);
+            handleResponse(LINK.SUCCESS, status, response, outMsg);
         }
 
     } catch (err) {
-        outMsg.property("http_status").set(status);
-        outMsg.property("http_message").set(err);
-        stream.log().error(err);
-        this.executeOutputLink("Error", outMsg);
+        handleResponse(LINK.ERROR, status, err, outMsg);
     }
 
-    function sendResponseToLog(response) {
-        var message = "HTTP Request:" + "\n" + endpoint + "\n\n" + response;
-        self.flowcontext.sendState("GREEN", message);
+    function handleResponse(link, status, response, message) {
+        message.property("http_status").set(status);
+        message.body(response);
+        self.executeOutputLink(link, outMsg);
     }
 
     function withDynamicVariablesIn(string){
