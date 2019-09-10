@@ -12,8 +12,10 @@ function handler(input) {
         var self = this;
 
         var urlProp = this.props["url"];
+        var bodyProp = this.props["body"] || "";
         var timeoutSeconds = this.props["request_timeout"];
 
+        var body = withDynamicVariablesIn(bodyProp);
         var endpoint = withDynamicVariablesIn(urlProp);
 
         var URL = Java.type("java.net.URL");
@@ -41,8 +43,20 @@ function handler(input) {
             });
         }
 
+        var isJsonBody = this.props["send_json"];
+        if(isJsonBody) {
+            JSON.parse(body);
+            con.setRequestProperty("Content-Type", "application/json");
+        }
+
         con.setConnectTimeout(timeoutSeconds * 1000 / 2);
         con.setReadTimeout(timeoutSeconds * 1000 / 2);
+
+        con.setDoOutput(true);
+
+        var outputStream = con.getOutputStream();
+        var inputBytes =  body.getBytes("utf-8");
+        outputStream.write(inputBytes, 0, inputBytes.length);
 
         var status = con.getResponseCode();
 

@@ -66,6 +66,20 @@
           "mandatory": true
         }
       ]
+    },
+    {
+      "name": "send_json",
+      "label": "Send JSON",
+      "description": "Set 'application/json' as the Content-Type header.",
+      "type": "boolean",
+      "mandatory": false
+    },
+    {
+      "name": "body",
+      "label": "Request Body",
+      "description": "Provide the request body to send. Include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
+      "type": "json",
+      "mandatory": false
     }
   ]
 }
