@@ -85,7 +85,15 @@ function handler(input) {
     }
 
     function withDynamicVariablesIn(string) {
-        return replaceFlowParams(replaceMessageProperties(string));
+        return replaceFlowParams(replaceMessageProperties(replaceTextBody(string)));
+    }
+
+    function replaceTextBody(value) {
+        if (input.type() !== "text") {
+            return value;
+        }
+
+        return replaceAll(value, "{body}", input.body());
     }
 
     function replaceFlowParams(value) {
