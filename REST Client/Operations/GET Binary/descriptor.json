@@ -1,0 +1,71 @@
+{
+  "description": "Make a HTTP GET request and returns the response as bytes message body.",
+  "links": {
+    "input": [
+      {
+        "name": "In",
+        "type": "message",
+        "mandatory": true
+      }
+    ],
+    "output": [
+      {
+        "name": "Success",
+        "type": "message"
+      },
+      {
+        "name": "Error",
+        "type": "message"
+      }
+    ]
+  },
+  "refs": {
+    "input": [
+      {
+        "name": "Authenticator",
+        "type": "authenticator",
+        "mandatory": true
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "url",
+      "label": "URL",
+      "description": "Provide the URL to send the HTTP GET request. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
+      "type": "string",
+      "mandatory": true
+    },
+    {
+      "name": "request_timeout",
+      "label": "Request Timeout in Seconds",
+      "description": "How long to wait for request completion.",
+      "type": "integer",
+      "default": 10,
+      "mandatory": true
+    },
+    {
+      "name": "headers",
+      "label": "Headers",
+      "description": "Provide the HTTP headers for the request.",
+      "mandatory": false,
+      "type": "table",
+      "tablefields": [
+        {
+          "name": "key",
+          "label": "Key",
+          "description": "Header Key",
+          "type": "string",
+          "mandatory": true
+        },
+        {
+          "name": "value",
+          "label": "Value",
+          "description": "Header Value",
+          "type": "string",
+          "mandatory": true
+        }
+      ]
+    }
+  ]
+}
