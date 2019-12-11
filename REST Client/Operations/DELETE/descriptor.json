@@ -45,23 +45,40 @@
       "mandatory": true
     },
     {
-      "name": "header_keys",
-      "label": "Header Keys",
-      "type": "array",
-      "description": "Specify custom headers. You must provide the corresponding Header Value in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
-      "fieldtypes": [
-        "string"
-      ],
+      "name": "headers",
+      "label": "Headers",
+      "description": "Provide the HTTP headers for the request.",
+      "mandatory": false,
+      "type": "table",
+      "tablefields": [
+        {
+          "name": "key",
+          "label": "Key",
+          "description": "Header Key",
+          "type": "string",
+          "mandatory": true
+        },
+        {
+          "name": "value",
+          "label": "Value",
+          "description": "Header Value",
+          "type": "string",
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "name": "send_json",
+      "label": "Send JSON",
+      "description": "Set 'application/json' as the Content-Type header.",
+      "type": "boolean",
       "mandatory": false
     },
     {
-      "name": "header_values",
-      "label": "Header Values",
-      "type": "array",
-      "description": "Specify custom headers. Make sure the corresponding Header Key is defined in the same order. Include Message property values using {propertyname}, {{parametername}} for a flow parameter.",
-      "fieldtypes": [
-        "string"
-      ],
+      "name": "body",
+      "label": "Request Body",
+      "description": "Provide the request body to send. Include variables using {propertyname} for incoming a message's property value, {body} if the incoming message is a Text Message, or to use a flow parameter value, reference it with {{parametername}}.",
+      "type": "json",
       "mandatory": false
     }
   ]

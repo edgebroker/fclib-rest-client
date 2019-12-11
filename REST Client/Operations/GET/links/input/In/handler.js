@@ -2,8 +2,15 @@ function handler(input) {
 
     try {
 
-        var self = this;
+        var LINK = {
+            SUCCESS: "Success",
+            ERROR: "Error"
+        };
 
+        var outMsg = stream.create().message().textMessage();
+        outMsg.copyProperties(input);
+
+        var self = this;
         var urlProp = this.props["url"];
         var timeoutSeconds = this.props["request_timeout"];
 
@@ -21,19 +28,15 @@ function handler(input) {
             con.setRequestProperty(key, value);
         }
 
-        var headerKeys = this.props["header_keys"];
-        var headerValues = this.props["header_values"];
-        var numHeaderKeys = headerKeys && headerKeys.length || 0;
-        var hasCustomHeaders = numHeaderKeys > 0;
-        if(hasCustomHeaders) {
-            headerKeys.forEach(function(key, index) {
+        var headers = this.props["headers"]
+        var numHeaders = headers && headers.length || 0;
+        var hasCustomHeaders = numHeaders > 0;
+        if (hasCustomHeaders) {
+            headers.forEach(function (header) {
+                var key = header["key"];
+                var value = header["value"];
                 var dynamicKey = withDynamicVariablesIn(key);
-                var dynamicValue = withDynamicVariablesIn(headerValues[index]);
-
-                if(dynamicValue === undefined) {
-                    throw "Missing header value for key '" + key + "'."
-                }
-
+                var dynamicValue = withDynamicVariablesIn(value);
                 con.setRequestProperty(dynamicKey, dynamicValue);
             });
         }
@@ -65,44 +68,41 @@ function handler(input) {
 
         var response = content.toString();
 
-        var textMessage = stream.create()
-                                .message()
-                                .textMessage();
-        textMessage.body(response);
-
         if (status > 299) {
             throw response;
         } else {
-            sendResponseToLog(response);
-            this.executeOutputLink("Success", textMessage)
+            handleResponse(LINK.SUCCESS, status, response, outMsg);
         }
 
     } catch (err) {
-        var textMessage = stream.create()
-                                .message()
-                                .textMessage();
-        stream.log().error(err);
-        textMessage.body(err);
-        this.executeOutputLink("Error", textMessage);
-        throw err;
+        handleResponse(LINK.ERROR, status, err, outMsg);
     }
 
-    function sendResponseToLog(response) {
-        var message = "HTTP Request:" + "\n" + endpoint + "\n\n" + response;
-        self.flowcontext.sendState("GREEN", message);
+    function handleResponse(link, status, response, message) {
+        message.property("http_status").set(status);
+        message.body(response);
+        self.executeOutputLink(link, outMsg);
     }
 
-    function withDynamicVariablesIn(string){
-        return replaceFlowParams(replaceMessageProperties(string));
+    function withDynamicVariablesIn(string) {
+        return replaceFlowParams(replaceMessageProperties(replaceTextBody(string)));
+    }
+
+    function replaceTextBody(value) {
+        if (input.type() !== "text") {
+            return value;
+        }
+
+        return replaceAll(value, "{body}", input.body());
     }
 
     function replaceFlowParams(value) {
-        return self.flowcontext.substitute(value);
+        return self.substitute(value);
     }
 
     function replaceMessageProperties(value) {
-        input.properties().forEach(function(prop){
-            value = replaceAll(value, "\\{"+prop.name()+"\\}", prop.value().toString());
+        input.properties().forEach(function (prop) {
+            value = replaceAll(value, "\\{" + prop.name() + "\\}", prop.value().toString());
         });
         return value;
     }
