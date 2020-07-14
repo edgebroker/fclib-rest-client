@@ -35,7 +35,7 @@ function handler(In) {
             this.executeOutputLink("Success", out);
     } catch (e) {
         out.property("http_status").set("900");
-        out.body(e);
+        out.body(e.toString());
         this.executeOutputLink("Error", out);
     }
     
