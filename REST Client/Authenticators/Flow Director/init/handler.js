@@ -18,6 +18,7 @@ function handler() {
     function attemptLogin() {
 
         var URL = Java.type("java.net.URL");
+        var STRING = Java.type("java.lang.String");
         var loginUrl = new URL(serverUrl + "/auth/login");
 
         var con = loginUrl.openConnection();
@@ -30,9 +31,9 @@ function handler() {
 
         con.setDoOutput(true);
 
-        jsonInputString = "{\"app\":\"" + app + "\", \"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
+        jsonInputString = new STRING("{\"app\":\"" + app + "\", \"username\": \"" + username + "\", \"password\": \"" + password + "\"}");
 
-        var os = con.getOutputStream()
+        var os = con.getOutputStream();
         var input = jsonInputString.getBytes("utf-8");
         os.write(input, 0, input.length);
 

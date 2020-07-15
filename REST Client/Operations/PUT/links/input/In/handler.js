@@ -1,4 +1,5 @@
 function handler(input) {
+    var STRING = Java.type("java.lang.String");
     var outMsg = stream.create().message().textMessage();
 
     try {
@@ -56,7 +57,7 @@ function handler(input) {
         con.setDoOutput(true);
 
         var outputStream = con.getOutputStream();
-        var inputBytes =  body.getBytes("utf-8");
+        var inputBytes =  new STRING(body).getBytes("utf-8");
         outputStream.write(inputBytes, 0, inputBytes.length);
 
         var status = con.getResponseCode();
