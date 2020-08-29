@@ -1,4 +1,6 @@
 function handler(input) {
+    var STRING = Java.type("java.lang.String");
+    var outMsg = stream.create().message().textMessage();
 
     try {
 
@@ -7,7 +9,6 @@ function handler(input) {
             ERROR: "Error"
         };
 
-        var outMsg = stream.create().message().textMessage();
         outMsg.copyProperties(input);
         var self = this;
 
@@ -55,7 +56,7 @@ function handler(input) {
         con.setDoOutput(true);
 
         var outputStream = con.getOutputStream();
-        var inputBytes =  body.getBytes("utf-8");
+        var inputBytes =  new STRING(body).getBytes("utf-8");
         outputStream.write(inputBytes, 0, inputBytes.length);
 
         var status = con.getResponseCode();
@@ -83,13 +84,13 @@ function handler(input) {
         var response = content.toString();
 
         if (status > 299) {
-            throw response;
+            handleResponse(LINK.ERROR, status, response, outMsg);
         } else {
             handleResponse(LINK.SUCCESS, status, response, outMsg);
         }
 
     } catch (err) {
-        handleResponse(LINK.ERROR, status, err, outMsg);
+        handleResponse(LINK.ERROR, status, err.toString(), outMsg);
     }
 
     function handleResponse(link, status, response, message) {

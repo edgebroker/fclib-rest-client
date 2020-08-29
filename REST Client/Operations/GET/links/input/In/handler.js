@@ -1,4 +1,5 @@
 function handler(input) {
+    var outMsg = stream.create().message().textMessage();
 
     try {
 
@@ -7,7 +8,6 @@ function handler(input) {
             ERROR: "Error"
         };
 
-        var outMsg = stream.create().message().textMessage();
         outMsg.copyProperties(input);
 
         var self = this;
@@ -69,13 +69,13 @@ function handler(input) {
         var response = content.toString();
 
         if (status > 299) {
-            throw response;
+            handleResponse(LINK.ERROR, status, response, outMsg);
         } else {
             handleResponse(LINK.SUCCESS, status, response, outMsg);
         }
 
     } catch (err) {
-        handleResponse(LINK.ERROR, status, err, outMsg);
+        handleResponse(LINK.ERROR, status, err.toString(), outMsg);
     }
 
     function handleResponse(link, status, response, message) {

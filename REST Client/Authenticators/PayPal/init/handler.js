@@ -1,4 +1,5 @@
 function handler() {
+    var STRING = Java.type("java.lang.String");
 
     var timeoutSeconds = this.props["request_timeout"];
 
@@ -17,7 +18,7 @@ function handler() {
         var clientId = self.props["clientid"];
         var secret = self.props["secret"];
 
-        var credentials = clientId + ":" + secret;
+        var credentials = new STRING(clientId + ":" + secret);
         var Base64 = Java.type("java.util.Base64");
         return Base64.getEncoder().encodeToString(credentials.getBytes());
     }
@@ -42,7 +43,7 @@ function handler() {
         con.setDoOutput(true);
 
         var outputStream = con.getOutputStream();
-        var inputBytes =  body.getBytes("utf-8");
+        var inputBytes =  new STRING(body).getBytes("utf-8");
         outputStream.write(inputBytes, 0, inputBytes.length);
 
         var status = con.getResponseCode();
